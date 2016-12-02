@@ -51,5 +51,59 @@ function cipher_form() {
 }
 
 function cipher_form_submit($form, &$form_state) {
+    $initial_shift_value = $form_state['values']['shift_value'];
+    $direction = $form_state['values']['direction'];
+    if ($direction == 0) {
+        $shift_value = -$initial_shift_value;
+    } else {
+        $shift_value = $initial_shift_value;
+    }
+    $phrase = strtolower($form_state['values']['phrase']);
+    $alphabet = 'abcdefghijklmnopqrstuvwxyz';
+    $alphabet_array = array(
+        'a',
+        'b',
+        'c',
+        'd',
+        'e',
+        'f',
+        'g',
+        'h',
+        'i',
+        'j',
+        'k',
+        'l',
+        'm',
+        'n',
+        'o',
+        'p',
+        'q',
+        'r',
+        's',
+        't',
+        'u',
+        'v',
+        'w',
+        'x',
+        'y',
+        'z',
+    );
 
+    $phrase_array = str_split($phrase);
+    $cipher_array = array();
+    foreach($phrase_array as $character) {
+        if(in_array($character, $alphabet_array)) {
+            array_push($cipher_array, $alphabet_array[strrpos($alphabet, $character) + $shift_value]);
+        } else {
+            array_push($cipher_array, $character);
+        }
+    }
+
+    $_SESSION['ciphered_phrase'] = implode('', $cipher_array);
+
+    $form_state['redirect'] = 'cipher_output_page';
+}
+
+function display_cipher_output() {
+    return $_SESSION['ciphered_phrase'];
 }
