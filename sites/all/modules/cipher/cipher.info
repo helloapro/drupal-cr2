@@ -1,0 +1,5 @@
+name = Cipher
+description = Takes a text input as well as a directional and numerical input to return and output of the original text shifted within the alphabet.
+package = Custom Modules
+core = 7.x
+files[] = cipher.module
