@@ -93,7 +93,14 @@ function cipher_form_submit($form, &$form_state) {
     $cipher_array = array();
     foreach($phrase_array as $character) {
         if(in_array($character, $alphabet_array)) {
-            array_push($cipher_array, $alphabet_array[strrpos($alphabet, $character) + $shift_value]);
+            $new_position = strrpos($alphabet, $character) + $shift_value;
+            if(($new_position < 26) && ($new_position > -1)) {
+                array_push($cipher_array, $alphabet_array[$new_position]);
+            } elseif ($new_position < 0) {
+                array_push($cipher_array, $alphabet_array[$new_position+26]);
+            } elseif ($new_position > 25) {
+                array_push($cipher_array, $alphabet_array[$new_position-26]);
+            }
         } else {
             array_push($cipher_array, $character);
         }
