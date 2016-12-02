@@ -51,7 +51,7 @@ function cipher_form() {
 }
 
 function cipher_form_submit($form, &$form_state) {
-    $initial_shift_value = $form_state['values']['shift_value'];
+    $initial_shift_value = $form_state['values']['shift_value'] % 26;
     $direction = $form_state['values']['direction'];
     if ($direction == 0) {
         $shift_value = -$initial_shift_value;
