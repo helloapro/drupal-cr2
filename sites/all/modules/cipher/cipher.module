@@ -45,7 +45,7 @@ function cipher_form() {
         '#type' => 'textfield',
         '#description' => 'Enter a phrase to be ciphered. (No special characters outside of spaces or punctuation)',
         '#required' => TRUE,
-        '#element_validate' => ('element_validate_punctuation'),
+        '#element_validate' => array('element_validate_punctuation'),
     );
     $form['submit'] = array(
         '#type' => 'submit',
@@ -61,12 +61,35 @@ function element_validate_direction($element) {
 }
 
 function element_validate_punctuation($element) {
-    $special_characters = array("@","#","$","%","^","&","*","(",")","_","+","-","=","`","~","[","]");
+    $special_characters = array(
+        '@',
+        '#',
+        '$',
+        '%',
+        '^',
+        '&',
+        '*',
+        '(',
+        ')',
+        '_',
+        '+',
+        '-',
+        '=',
+        '`',
+        '~',
+        '[',
+        ']',
+    );
     $phrase_array = str_split($element['#value']);
+    $count = 0;
     foreach ($phrase_array as $character) {
         if (in_array($character, $special_characters)) {
-            form_error($element, t("Phrase cannot contain special characters outside of regular spacing and punctuation."));
+            $count ++;
         }
+    }
+
+    if($count > 0) {
+        form_error($element, t("Phrase cannot contain special characters outside of regular spacing and punctuation."));
     }
 }
 
